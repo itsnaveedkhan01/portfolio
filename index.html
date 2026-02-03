@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Naveed Khan | Digital Studio</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --primary: #4f46e5;
+      --dark: #0f172a;
+    }
+
+    .navbar {
+      background: #ffffffee;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eef2ff, #ffffff);
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .section-padding {
+      padding: 100px 0;
+    }
+
+    .card-custom {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      transition: transform .3s ease;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-8px);
+    }
+
+    footer {
+      background: var(--dark);
+      color: #cbd5f5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#home">Naveed Khan</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero d-flex align-items-center">
+  <div class="container">
+    <h1 class="display-5 fw-bold mb-4">
+      We Build <span>Digital Products</span><br>That Grow Businesses
+    </h1>
+    <p class="lead mb-4">
+      Full Stack Development • UI/UX Design • SaaS • Automation
+    </p>
+    <a href="#work" class="btn btn-primary btn-lg">View Work</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section-padding">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Services</h2>
+      <p class="text-muted">Complete digital solutions under one roof</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>UI / UX & Graphic Design</h5>
+          <p class="text-muted">Website UI, dashboards, branding (PS / AI).</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>Web Development</h5>
+          <p class="text-muted">Laravel, PHP, custom systems, SaaS.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>Automation & AI</h5>
+          <p class="text-muted">WhatsApp bots, voice calling, workflows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" class="section-padding bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Selected Work (Demo)</h2>
+      <p class="text-muted">Conceptual & demo-based projects</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>Inventory SaaS System</h5>
+          <p class="text-muted">Multi-tenant inventory & accounts.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>Restaurant AI WhatsApp Bot</h5>
+          <p class="text-muted">Automated ordering system.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-custom p-4 h-100">
+          <h5>Logistics Management</h5>
+          <p class="text-muted">Tracking & analytics dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section-padding">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">About</h2>
+    <p class="text-muted">
+      I’m Naveed Khan, a Full Stack Developer with 4+ years of experience.
+      I work with a small trusted team to deliver scalable digital solutions.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-padding bg-light">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Let’s Work Together</h2>
+    <p class="text-muted">
+      Email: naveed@email.com <br>
+      Upwork: upwork.com/freelancers/yourprofile
+    </p>
+  </div>
+</section>
+
+<footer class="py-4 text-center">
+  <small>© 2026 Naveed Khan Digital Studio · Demo projects for showcase</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
