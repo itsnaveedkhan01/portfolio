@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Naveed Khan | Digital Studio</title>
+  <title>Naveed Khan | NK Digital Studio</title>
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,42 +20,98 @@
     :root {
       --primary: #4f46e5;
       --dark: #0f172a;
+      --accent: #22c55e;
     }
 
+    /* Navbar */
     .navbar {
       background: #ffffffee;
       backdrop-filter: blur(10px);
     }
+    .nav-link.active {
+      color: var(--primary) !important;
+      font-weight: 600;
+    }
 
+    /* Hero */
     .hero {
       min-height: 100vh;
       background: linear-gradient(135deg, #eef2ff, #ffffff);
+      display: flex;
+      align-items: center;
     }
 
     .hero h1 span {
       color: var(--primary);
     }
 
+    /* Naveed Image with Animated Border */
+    .profile-wrapper {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+    .profile-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      padding: 6px;
+      background: linear-gradient(270deg, var(--primary), var(--accent), var(--primary));
+      animation: rotate 4s linear infinite;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .profile-img {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    /* Buttons */
     .btn-primary {
       background-color: var(--primary);
       border-color: var(--primary);
     }
 
+    /* Sections */
     .section-padding {
       padding: 100px 0;
     }
 
+    /* Cards + Scroll Animation */
     .card-custom {
       border: none;
-      border-radius: 16px;
+      border-radius: 18px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      transition: transform .3s ease;
+      transition: all 0.6s ease;
+      opacity: 0;
+      transform: translateY(30px);
     }
 
-    .card-custom:hover {
-      transform: translateY(-8px);
+    .card-custom.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
+    /* Footer */
     footer {
       background: var(--dark);
       color: #cbd5f5;
@@ -67,7 +123,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#home">Naveed Khan</a>
+    <a class="navbar-brand fw-bold" href="#home">NK Digital Studio</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -84,15 +140,29 @@
 </nav>
 
 <!-- HERO -->
-<section id="home" class="hero d-flex align-items-center">
+<section id="home" class="hero">
   <div class="container">
-    <h1 class="display-5 fw-bold mb-4">
-      We Build <span>Digital Products</span><br>That Grow Businesses
-    </h1>
-    <p class="lead mb-4">
-      Full Stack Development • UI/UX Design • SaaS • Automation
-    </p>
-    <a href="#work" class="btn btn-primary btn-lg">View Work</a>
+    <div class="row align-items-center">
+      <!-- LEFT CONTENT -->
+      <div class="col-lg-7 mb-5 mb-lg-0">
+        <h1 class="display-5 fw-bold mb-4">
+          We Build <span>Reliable Digital Systems</span><br>
+          For Growing Businesses
+        </h1>
+        <p class="lead mb-4">
+          Laravel • UI/UX • SaaS Platforms • Business Automation
+        </p>
+        <a href="#work" class="btn btn-primary btn-lg">View Demo Projects</a>
+      </div>
+
+      <!-- RIGHT IMAGE -->
+      <div class="col-lg-5 text-center">
+        <div class="profile-wrapper">
+          <!-- Replace image path with your real photo -->
+          <img src="https://via.placeholder.com/300" alt="Naveed Khan" class="profile-img">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -100,27 +170,27 @@
 <section id="services" class="section-padding">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold">Services</h2>
-      <p class="text-muted">Complete digital solutions under one roof</p>
+      <h2 class="fw-bold">What We Do</h2>
+      <p class="text-muted">End-to-end digital solutions</p>
     </div>
 
     <div class="row g-4">
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
-          <h5>UI / UX & Graphic Design</h5>
-          <p class="text-muted">Website UI, dashboards, branding (PS / AI).</p>
+          <h5>UI / UX & Branding</h5>
+          <p class="text-muted">Modern interfaces, dashboards, branding (PS / AI).</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
-          <h5>Web Development</h5>
-          <p class="text-muted">Laravel, PHP, custom systems, SaaS.</p>
+          <h5>Web & SaaS Development</h5>
+          <p class="text-muted">Laravel systems, APIs, multi-tenant apps.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
           <h5>Automation & AI</h5>
-          <p class="text-muted">WhatsApp bots, voice calling, workflows.</p>
+          <p class="text-muted">WhatsApp bots, voice workflows, automation.</p>
         </div>
       </div>
     </div>
@@ -131,27 +201,27 @@
 <section id="work" class="section-padding bg-light">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold">Selected Work (Demo)</h2>
-      <p class="text-muted">Conceptual & demo-based projects</p>
+      <h2 class="fw-bold">Demo Projects</h2>
+      <p class="text-muted">Real-world inspired systems</p>
     </div>
 
     <div class="row g-4">
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
-          <h5>Inventory SaaS System</h5>
+          <h5>Inventory SaaS</h5>
           <p class="text-muted">Multi-tenant inventory & accounts.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
-          <h5>Restaurant AI WhatsApp Bot</h5>
-          <p class="text-muted">Automated ordering system.</p>
+          <h5>Restaurant AI Bot</h5>
+          <p class="text-muted">WhatsApp ordering automation.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card card-custom p-4 h-100">
-          <h5>Logistics Management</h5>
-          <p class="text-muted">Tracking & analytics dashboard.</p>
+          <h5>Logistics Dashboard</h5>
+          <p class="text-muted">Tracking & reporting system.</p>
         </div>
       </div>
     </div>
@@ -163,8 +233,8 @@
   <div class="container text-center">
     <h2 class="fw-bold mb-4">About</h2>
     <p class="text-muted">
-      I’m Naveed Khan, a Full Stack Developer with 4+ years of experience.
-      I work with a small trusted team to deliver scalable digital solutions.
+      Led by Naveed Khan, Full Stack Laravel Developer with 4+ years of experience.
+      Working with trusted partners to deliver scalable digital products.
     </p>
   </div>
 </section>
@@ -181,9 +251,41 @@
 </section>
 
 <footer class="py-4 text-center">
-  <small>© 2026 Naveed Khan Digital Studio · Demo projects for showcase</small>
+  <small>© 2026 NK Digital Studio · Demo projects for showcase purposes</small>
 </footer>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Scroll Animation + Active Navbar -->
+<script>
+  // Scroll animation
+  const cards = document.querySelectorAll('.card-custom');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('show');
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(card => observer.observe(card));
+
+  // Active navbar
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120;
+      if (scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
