@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,285 +7,899 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      scroll-behavior: smooth;
-    }
-
     :root {
-      --primary: #4f46e5;
-      --dark: #0f172a;
-      --accent: #22c55e;
+      --bg-dark: #050507;
+      --bg-card: #0f1014;
+      --primary: #6366f1;
+      --accent: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.03);
+      --gradient-main: linear-gradient(135deg, var(--primary), var(--accent));
     }
 
-    /* Navbar */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      cursor: none; /* Hide default cursor for custom one */
+    }
+
+    h1, h2, h3, h4, h5, h6, .navbar-brand {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* --- Custom Cursor --- */
+    .cursor-dot, .cursor-outline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--text-main);
+    }
+
+    .cursor-outline {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    body.hovering .cursor-outline {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: transparent;
+      backdrop-filter: blur(2px);
+    }
+
+    /* --- Typography & Utilities --- */
+    .text-gradient {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-padding {
+      padding: 120px 0;
+    }
+
+    /* --- Navbar --- */
     .navbar {
-      background: #ffffffee;
-      backdrop-filter: blur(10px);
-    }
-    .nav-link.active {
-      color: var(--primary) !important;
-      font-weight: 600;
+      background: rgba(5, 5, 7, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.4s ease;
+      padding: 1.2rem 0;
     }
 
-    /* Hero */
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-main) !important;
+    }
+
+    .nav-link {
+      color: var(--text-muted) !important;
+      font-weight: 500;
+      position: relative;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--gradient-main);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main) !important;
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* --- Hero Section --- */
     .hero {
       min-height: 100vh;
-      background: linear-gradient(135deg, #eef2ff, #ffffff);
+      position: relative;
       display: flex;
       align-items: center;
+      overflow: hidden;
+      padding-top: 80px;
     }
 
-    .hero h1 span {
-      color: var(--primary);
+    #hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.6;
     }
 
-    /* Naveed Image with Animated Border */
-    .profile-wrapper {
+    .hero-content {
       position: relative;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 50px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+    }
+
+    .btn-glow {
+      position: relative;
+      padding: 14px 32px;
+      border-radius: 8px;
+      background: var(--gradient-main);
+      color: white;
+      font-weight: 600;
+      border: none;
+      overflow: hidden;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-glow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      z-index: -1;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+
+    .btn-glow:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    }
+
+    /* --- Profile Image --- */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-card {
+      width: 380px;
+      height: 480px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .profile-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .profile-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--bg-dark), transparent);
+    }
+
+    .floating-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(15, 16, 20, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* --- 3D Tilt Cards --- */
+    .card-3d {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      transition: transform 0.1s ease-out; /* Smooth JS follow */
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Spotlight Effect */
+    .card-3d::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .card-3d:hover::before {
+      opacity: 1;
+    }
+
+    .card-3d-content {
+      position: relative;
+      z-index: 2;
+      transform: translateZ(20px); /* Pop out effect */
+    }
+
+    .icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: auto;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .profile-wrapper::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      padding: 6px;
-      background: linear-gradient(270deg, var(--primary), var(--accent), var(--primary));
-      animation: rotate 4s linear infinite;
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .profile-img {
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #ddd;
-    }
-
-    /* Buttons */
-    .btn-primary {
-      background-color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    /* Sections */
-    .section-padding {
-      padding: 100px 0;
-    }
-
-    /* Cards + Scroll Animation */
-    .card-custom {
-      border: none;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      transition: all 0.6s ease;
+    /* --- Scroll Animation --- */
+    .reveal {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
     }
 
-    .card-custom.show {
+    .reveal.active {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Footer */
+    /* --- Contact Section --- */
+    .contact-form .form-control {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .contact-form .form-control:focus {
+      background: var(--glass);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .contact-form label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* --- Footer --- */
     footer {
-      background: var(--dark);
-      color: #cbd5f5;
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* --- Toast Notification --- */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+    }
+    
+    .custom-toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transform: translateX(150%);
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    
+    .custom-toast.show {
+      transform: translateX(0);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 991px) {
+      .hero { text-align: center; padding-top: 100px; }
+      .hero-content { margin-bottom: 50px; }
+      .hero p { margin: 0 auto 30px auto; }
+      .profile-card { width: 300px; height: 380px; margin: 0 auto; }
+      .cursor-dot, .cursor-outline { display: none; } /* Disable custom cursor on touch */
+      body { cursor: auto; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#home">NK Digital Studio</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor-dot" data-cursor-dot></div>
+  <div class="cursor-outline" data-cursor-outline></div>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="container">
-    <div class="row align-items-center">
-      <!-- LEFT CONTENT -->
-      <div class="col-lg-7 mb-5 mb-lg-0">
-        <h1 class="display-5 fw-bold mb-4">
-          We Build <span>Reliable Digital Systems</span><br>
-          For Growing Businesses
-        </h1>
-        <p class="lead mb-4">
-          Laravel • UI/UX • SaaS Platforms • Business Automation
-        </p>
-        <a href="#work" class="btn btn-primary btn-lg">View Demo Projects</a>
-      </div>
-
-      <!-- RIGHT IMAGE -->
-      <div class="col-lg-5 text-center">
-        <div class="profile-wrapper">
-          <!-- Replace image path with your real photo -->
-          <img src="https://via.placeholder.com/300" alt="Naveed Khan" class="profile-img">
-        </div>
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-container">
+    <div id="customToast" class="custom-toast">
+      <i class="fa-solid fa-circle-check text-success"></i>
+      <div>
+        <strong>Message Sent!</strong>
+        <div class="small text-muted">We'll get back to you shortly.</div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- SERVICES -->
-<section id="services" class="section-padding">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">What We Do</h2>
-      <p class="text-muted">End-to-end digital solutions</p>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>UI / UX & Branding</h5>
-          <p class="text-muted">Modern interfaces, dashboards, branding (PS / AI).</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>Web & SaaS Development</h5>
-          <p class="text-muted">Laravel systems, APIs, multi-tenant apps.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>Automation & AI</h5>
-          <p class="text-muted">WhatsApp bots, voice workflows, automation.</p>
-        </div>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#home">
+        NK <span class="text-gradient">Digital Studio</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="fa fa-bars text-white"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- WORK -->
-<section id="work" class="section-padding bg-light">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">Demo Projects</h2>
-      <p class="text-muted">Real-world inspired systems</p>
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <!-- Canvas for Particle Animation -->
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content">
+          <div class="hero-badge reveal">
+            <i class="fa-solid fa-code me-2"></i> Available for Hire
+          </div>
+          <h1 class="reveal">
+            We Build <br>
+            <span class="text-gradient">Reliable Systems</span><br>
+            For Future Brands
+          </h1>
+          <p class="reveal">
+            Specializing in Laravel Backends, SaaS Architecture, and AI-driven automation. We turn complex business logic into elegant digital experiences.
+          </p>
+          <div class="reveal d-flex gap-3 justify-content-lg-start justify-content-center">
+            <a href="#work" class="btn-glow">View Projects</a>
+            <a href="#contact" class="btn btn-outline-light rounded-3 px-4 py-3" style="border: 1px solid var(--border); color:white;">Contact Us</a>
+          </div>
+        </div>
+
+        <div class="col-lg-6 hero-visual">
+          <div class="profile-card reveal">
+            <!-- Placeholder for Naveed's Photo -->
+            <img src="https://picsum.photos/seed/naveed/400/500" alt="Naveed Khan">
+            <div class="floating-badge">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div>
+                <div class="fw-bold mb-0">4+ Years Exp.</div>
+                <div class="small text-muted">Full Stack Developer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>Inventory SaaS</h5>
-          <p class="text-muted">Multi-tenant inventory & accounts.</p>
+  <!-- SERVICES SECTION -->
+  <section id="services" class="section-padding">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <span class="text-primary text-uppercase fw-bold ls-2 small">Expertise</span>
+          <h2 class="mt-2 reveal">What We Do Best</h2>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>Restaurant AI Bot</h5>
-          <p class="text-muted">WhatsApp ordering automation.</p>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card-3d reveal">
+            <div class="card-3d-content">
+              <div class="icon-box">
+                <i class="fa-solid fa-pen-nib"></i>
+              </div>
+              <h4>UI / UX Design</h4>
+              <p class="text-muted mt-3">High-fidelity mockups, interactive dashboards, and brand identity systems using PS & AI.</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5>Logistics Dashboard</h5>
-          <p class="text-muted">Tracking & reporting system.</p>
+        <div class="col-md-4">
+          <div class="card-3d reveal" style="transition-delay: 100ms;">
+            <div class="card-3d-content">
+              <div class="icon-box">
+                <i class="fa-brands fa-laravel"></i>
+              </div>
+              <h4>Web & SaaS</h4>
+              <p class="text-muted mt-3">Robust Laravel applications, RESTful APIs, and multi-tenant architecture solutions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-3d reveal" style="transition-delay: 200ms;">
+            <div class="card-3d-content">
+              <div class="icon-box">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <h4>Automation & AI</h4>
+              <p class="text-muted mt-3">WhatsApp business bots, voice workflows, and AI integration to streamline operations.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ABOUT -->
-<section id="about" class="section-padding">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">About</h2>
-    <p class="text-muted">
-      Led by Naveed Khan, Full Stack Laravel Developer with 4+ years of experience.
-      Working with trusted partners to deliver scalable digital products.
-    </p>
-  </div>
-</section>
+  <!-- WORK SECTION -->
+  <section id="work" class="section-padding" style="background: rgba(255,255,255,0.02);">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <span class="text-primary text-uppercase fw-bold ls-2 small">Portfolio</span>
+          <h2 class="mt-2 reveal">Recent Projects</h2>
+        </div>
+      </div>
 
-<!-- CONTACT -->
-<section id="contact" class="section-padding bg-light">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">Let’s Work Together</h2>
-    <p class="text-muted">
-      Email: naveed@email.com <br>
-      Upwork: upwork.com/freelancers/yourprofile
-    </p>
-  </div>
-</section>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card-3d reveal">
+            <div class="card-3d-content">
+              <div class="mb-4 overflow-hidden rounded-3">
+                <img src="https://picsum.photos/seed/inventory/400/250" class="w-100 object-fit-cover" alt="Inventory">
+              </div>
+              <h5>Inventory SaaS</h5>
+              <p class="text-muted small">Multi-tenant inventory & accounts management system.</p>
+              <a href="#" class="text-decoration-none text-white small">View Case Study <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-3d reveal" style="transition-delay: 100ms;">
+            <div class="card-3d-content">
+              <div class="mb-4 overflow-hidden rounded-3">
+                <img src="https://picsum.photos/seed/restaurant/400/250" class="w-100 object-fit-cover" alt="Restaurant Bot">
+              </div>
+              <h5>Restaurant AI Bot</h5>
+              <p class="text-muted small">WhatsApp-based automated ordering and reservation system.</p>
+              <a href="#" class="text-decoration-none text-white small">View Case Study <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-3d reveal" style="transition-delay: 200ms;">
+            <div class="card-3d-content">
+              <div class="mb-4 overflow-hidden rounded-3">
+                <img src="https://picsum.photos/seed/logistics/400/250" class="w-100 object-fit-cover" alt="Logistics">
+              </div>
+              <h5>Logistics Dashboard</h5>
+              <p class="text-muted small">Real-time tracking, reporting, and fleet management.</p>
+              <a href="#" class="text-decoration-none text-white small">View Case Study <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer class="py-4 text-center">
-  <small>© 2026 NK Digital Studio · Demo projects for showcase purposes</small>
-</footer>
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0 reveal">
+            <img src="https://picsum.photos/seed/coding/600/400" alt="Coding setup" class="img-fluid rounded-4 shadow-lg border border-secondary border-opacity-25">
+        </div>
+        <div class="col-lg-6 ps-lg-5 reveal">
+          <h2 class="mb-4">About <span class="text-gradient">Naveed Khan</span></h2>
+          <p class="text-muted lead">
+            I am a Full Stack Laravel Developer with a passion for creating scalable digital ecosystems. 
+          </p>
+          <p class="text-muted">
+            With over 4 years of hands-on experience, I bridge the gap between complex backend logic and user-centric frontend design. Whether it's building SaaS platforms from scratch or automating business workflows with AI, I focus on performance, security, and clean code.
+          </p>
+          <div class="d-flex gap-4 mt-4">
+            <div>
+              <h3 class="fw-bold mb-0">4+</h3>
+              <small class="text-muted">Years Exp.</small>
+            </div>
+            <div>
+              <h3 class="fw-bold mb-0">50+</h3>
+              <small class="text-muted">Projects</small>
+            </div>
+            <div>
+              <h3 class="fw-bold mb-0">100%</h3>
+              <small class="text-muted">Satisfaction</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="section-padding" style="background: linear-gradient(to bottom, var(--bg-dark), #0a0a10);">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card-3d p-5 reveal">
+            <div class="text-center mb-5">
+              <h2>Let's Start a Project</h2>
+              <p class="text-muted">Send us a message and we will get back to you within 24 hours.</p>
+            </div>
 
-<!-- Scroll Animation + Active Navbar -->
-<script>
-  // Scroll animation
-  const cards = document.querySelectorAll('.card-custom');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('show');
-    });
-  }, { threshold: 0.2 });
-  cards.forEach(card => observer.observe(card));
+            <form class="contact-form" id="contactForm">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label>Name</label>
+                  <input type="text" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label>Email</label>
+                  <input type="email" class="form-control" placeholder="john@example.com" required>
+                </div>
+                <div class="col-12 mb-4">
+                  <label>Subject</label>
+                  <input type="text" class="form-control" placeholder="Project Inquiry" required>
+                </div>
+                <div class="col-12 mb-4">
+                  <label>Message</label>
+                  <textarea class="form-control" rows="5" placeholder="Tell us about your project details..." required></textarea>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn-glow w-50">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  // Active navbar
-  const sections = document.querySelectorAll('section');
-  const navLinks = document.querySelectorAll('.nav-link');
+  <footer>
+    <div class="container">
+      <p class="mb-2">&copy; 2026 NK Digital Studio. All rights reserved.</p>
+      <div class="small text-muted">Designed & Built by Naveed Khan</div>
+      <div class="mt-3">
+        <a href="#" class="text-muted mx-2"><i class="fa-brands fa-github"></i></a>
+        <a href="#" class="text-muted mx-2"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" class="text-muted mx-2"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+    </div>
+  </footer>
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 120;
-      if (scrollY >= sectionTop) current = section.getAttribute('id');
-    });
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + current) {
-        link.classList.add('active');
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Advanced UI Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      /* --- 1. Custom Cursor Logic --- */
+      const cursorDot = document.querySelector('[data-cursor-dot]');
+      const cursorOutline = document.querySelector('[data-cursor-outline]');
+      
+      if(window.matchMedia("(pointer: fine)").matches) {
+        window.addEventListener('mousemove', (e) => {
+          const posX = e.clientX;
+          const posY = e.clientY;
+
+          // Dot follows instantly
+          cursorDot.style.left = `${posX}px`;
+          cursorDot.style.top = `${posY}px`;
+
+          // Outline follows with slight delay (animation in CSS keyframes would be smoother but JS is fine for simple tracking)
+          cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+          }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover states for interactive elements
+        const interactables = document.querySelectorAll('a, button, .form-control, .card-3d');
+        interactables.forEach(el => {
+          el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+          el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
       }
-    });
-  });
-</script>
 
+      /* --- 2. Scroll Reveal Animation --- */
+      const revealElements = document.querySelectorAll('.reveal');
+      
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target); // Only animate once
+          }
+        });
+      }, { threshold: 0.1 });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      /* --- 3. 3D Tilt & Spotlight Effect --- */
+      const cards = document.querySelectorAll('.card-3d');
+
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          // Update CSS variables for spotlight
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+
+          // Calculate tilt
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg rotation
+          const rotateY = ((x - centerX) / centerX) * 5;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+      });
+
+      /* --- 4. Hero Canvas Particle Animation --- */
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      let particlesArray;
+
+      // Resize canvas
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles();
+      });
+
+      // Mouse interaction for canvas
+      const mouse = { x: null, y: null, radius: 150 };
+      
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+      });
+
+      // Particle Class
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2;
+          this.speedX = (Math.random() * 1.5) - 0.75;
+          this.speedY = (Math.random() * 1.5) - 0.75;
+          this.color = '#6366f1'; // Primary color
+        }
+
+        update() {
+          // Move
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          // Bounce off edges
+          if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+          if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+
+          // Mouse repulsion/attraction check
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < mouse.radius) {
+             const forceDirectionX = dx / distance;
+             const forceDirectionY = dy / distance;
+             const force = (mouse.radius - distance) / mouse.radius;
+             const directionX = forceDirectionX * force * 3;
+             const directionY = forceDirectionY * force * 3;
+             this.x -= directionX;
+             this.y -= directionY;
+          }
+        }
+
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        particlesArray = [];
+        let numberOfParticles = (canvas.height * canvas.width) / 9000;
+        for (let i = 0; i < numberOfParticles; i++) {
+          particlesArray.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+          particlesArray[i].draw();
+          
+          // Draw lines between close particles
+          for (let j = i; j < particlesArray.length; j++) {
+            const dx = particlesArray[i].x - particlesArray[j].x;
+            const dy = particlesArray[i].y - particlesArray[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(99, 102, 241, ${1 - distance/100})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+              ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+              ctx.stroke();
+              ctx.closePath();
+            }
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+
+      initParticles();
+      animateParticles();
+
+      /* --- 5. Contact Form Handling (Mock) --- */
+      const contactForm = document.getElementById('contactForm');
+      const toast = document.getElementById('customToast');
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Simulate API call
+        const btn = contactForm.querySelector('button');
+        const originalText = btn.innerText;
+        btn.innerText = 'Sending...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          // Reset form
+          contactForm.reset();
+          btn.innerText = originalText;
+          btn.disabled = false;
+
+          // Show toast
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 4000);
+        }, 1500);
+      });
+
+      /* --- 6. Active Navbar State --- */
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+
+    });
+  </script>
 </body>
 </html>
